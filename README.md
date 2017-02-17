@@ -17,7 +17,7 @@
 git clone git://github.com/ya-mat/2d_laplace.git
 cd 2d_laplace
 ```
-- Makefileを自分の環境に合うように編集する
+- `Makefile`を自分の環境に合うように編集する
     - `LINKER` fortranコンパイラを指定
     - `FORTRAN` fortranコンパイラを指定
     - `LDFLAGS` blas, lapackのpathを指定
@@ -33,4 +33,4 @@ make
  rad  0.50000000000000000     
  relative error   3.1420249220739864E-003
 ```
-- inputの中身を編集することで，未知数の数と円の半径を変更できます．
+- `input`の中身を編集することで，未知数の数と円の半径を変更できます．
