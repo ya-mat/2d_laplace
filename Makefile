@@ -1,8 +1,7 @@
 LINKER	      =	gfortran
 FORTRAN	     =	gfortran
 LDFLAGS	     =	-L/usr/lib/ -lblas -llapack -lslatec_gcc
-#FOPTS	     = -cpp -O3 -ffree-line-length-none -fmax-errors=3
-FOPTS	     = -g -fbounds-check -fmax-errors=3 -cpp -ffree-line-length-none
+FOPTS	     = -cpp -O3 -ffree-line-length-none -fmax-errors=3
 
 OBJS          = lp_laplace.o\
 		force_raise.o\
