@@ -5,12 +5,12 @@ program main
   implicit none
 
   real(8) :: rad
-  real(8),allocatable :: x(:,:)
-  real(8),allocatable :: xn(:,:)
-  integer,allocatable :: edge(:,:)
+  real(8),allocatable :: x(:, :)
+  real(8),allocatable :: xn(:, :)
+  integer,allocatable :: edge(:, :)
   real(8),allocatable :: hs(:)
-  real(8),allocatable :: lp1(:,:)
-  real(8),allocatable :: lp2(:,:)
+  real(8),allocatable :: lp1(:, :)
+  real(8),allocatable :: lp2(:, :)
   real(8),allocatable :: u(:)
   real(8),allocatable :: kai(:)
   integer,allocatable :: ipiv(:)
@@ -33,9 +33,9 @@ program main
   read(1000,*) n, rad
   close(1000)
 
-  allocate(x(2,n))
-  allocate(xn(2,n))
-  allocate(edge(2,n))
+  allocate(x(2, n))
+  allocate(xn(2, n))
+  allocate(edge(2, n))
   allocate(hs(n))
   allocate(lp1(n, n))
   allocate(lp2(n, n))
@@ -54,29 +54,19 @@ program main
 
   do i = 1, n
      i0 = edge(1, i)
-     if(i0 .ge. 1 .and. i0 .lt. n+1) then
-        !pass
-     else
-        call force_raise()
-     end if
-
      i1 = edge(2, i)
-     if(i1 .ge. 1 .and. i1 .lt. n+1) then
-        !pass
+     if((i0 .ge. 1 .and. i0 .lt. n+1) .and. (i1 .ge. 1 .and. i1 .lt. n+1)) then
+        xn(1, i) = x(2, i1) - x(2, i0)
+        xn(2, i) = x(1, i0) - x(1, i1)
+
+        hs(i) = sqrt(xn(1, i)**2 + xn(2, i)**2)
+
+        xn(1, i) = xn(1, i)/hs(i)
+        xn(2, i) = xn(2, i)/hs(i)
      else
         call force_raise()
      end if
 
-     xn(1, i) = x(2, i1) - x(2, i0)
-     xn(2, i) = x(1, i0) - x(1, i1)
-
-     hs(i) = sqrt(xn(1, i)**2 + xn(2, i)**2)
-
-     xn(1, i) = xn(1, i)/hs(i)
-     xn(2, i) = xn(2, i)/hs(i)
-  end do
-
-  do i = 1, n
      !x**3*y - x*y**3
      u(i) = x(1, i)**3*x(2, i) - x(1, i)*x(2, i)**3
 
@@ -107,10 +97,18 @@ program main
      call force_raise()
   endif
   deallocate(lp1)
+  deallocate(ipiv)
 
   write(*,*) 'number of dof', n
   write(*,*) 'rad', rad
   write(*,*) 'relative error', sqrt(dot_product(u - kai, u - kai)/dot_product(kai, kai))
+
+  deallocate(u)
+  deallocate(kai)
+  deallocate(x)
+  deallocate(xn)
+  deallocate(edge)
+  deallocate(hs)
 
 end program main
 
