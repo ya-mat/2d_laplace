@@ -83,8 +83,8 @@ program main
         i0 = edge(1, i)
         i1 = edge(2, i)
         xm(:) = 0.5d0*(x(:,i0) + x(:,i1))
-        lp1(i, j) = slp_laplace(xm, x(:,j0), x(:,j1), hs(j), xn(:,j))
-        lp2(i, j) = dlp_laplace(xm, x(:,j0), x(:,j1), hs(j), xn(:,j), exterior)
+        lp1(i, j) = dble(slp_laplace(xm, x(:,j0), x(:,j1), hs(j), xn(:,j)))
+        lp2(i, j) = dble(dlp_laplace(xm, x(:,j0), x(:,j1), hs(j), xn(:,j), exterior))
      end do
   end do
 
