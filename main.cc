@@ -59,8 +59,13 @@ int main(){
   for(i = 0; i < n; i++){
     i0 = edge(0, i);
     i1 = edge(1, i);
-    test(edge(1, i));
-    test2(edge);
+
+    if((i0 >= 0 && i0 < n) && (i1 >= 0 && i1 < n)){
+//      xn(1, i) = x(2, i1) - x(2, i0);
+//      xn(2, i) = x(1, i0) - x(1, i1);
+
+//      hs(i) = std::sqrt(std::pow(xn(1, i), 2.0) + std::pow(xn(2, i), 2.0));
+    }
   }
 }
 
