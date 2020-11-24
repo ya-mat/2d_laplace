@@ -1,6 +1,7 @@
 LINKER	     = gfortran
 FORTRAN	     = gfortran
-LDFLAGS	     = -L/usr/lib/ -lblas -llapack
+#LDFLAGS	     = -llapack -lrefblas
+LDFLAGS	     = -lopenblas
 FOPTS	     = -cpp -O3 -ffree-line-length-none -fmax-errors=3
 
 OBJS          = lp_laplace.o\
