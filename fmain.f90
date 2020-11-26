@@ -55,6 +55,7 @@ program main
   do i = 1, n
      i0 = edge(1, i)
      i1 = edge(2, i)
+     xm(:) = 0.5d0*(x(:,i0) + x(:,i1))
      if((i0 .ge. 1 .and. i0 .lt. n+1) .and. (i1 .ge. 1 .and. i1 .lt. n+1)) then
         xn(1, i) = x(2, i1) - x(2, i0)
         xn(2, i) = x(1, i0) - x(1, i1)
@@ -68,10 +69,10 @@ program main
      end if
 
      !x**3*y - x*y**3
-     u(i) = x(1, i)**3*x(2, i) - x(1, i)*x(2, i)**3
+     u(i) = xm(1)**3*xm(2) - xm(1)*xm(2)**3
 
      !(3x**2*y - y**3)nx + (x**3 - 3xy**2)ny
-     kai(i) = (3*x(1, i)**2*x(2, i) - x(2, i)**3)*xn(1, i) + (x(1, i)**3 - 3*x(1, i)*x(2, i)**2)*xn(2, i)
+     kai(i) = (3*xm(1)**2*xm(2) - xm(2)**3)*xn(1, i) + (xm(1)**3 - 3*xm(1)*xm(2)**2)*xn(2, i)
   end do
 
   exterior = 0
@@ -89,7 +90,6 @@ program main
   end do
 
   u = matmul(lp2, u)
-  deallocate(lp2)
 
   call DGESV(N, 1, lp1, n, ipiv, u, n, info)
   if(info.ne.0) then
@@ -103,6 +103,7 @@ program main
   write(*,*) 'rad', rad
   write(*,*) 'relative error', sqrt(dot_product(u - kai, u - kai)/dot_product(kai, kai))
 
+  deallocate(lp2)
   deallocate(u)
   deallocate(kai)
   deallocate(x)
